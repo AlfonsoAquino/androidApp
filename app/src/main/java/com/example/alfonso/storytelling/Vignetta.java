@@ -8,6 +8,7 @@ public class Vignetta implements Parcelable{
     private int idAlbum;
     private String path;
     private int ordine;
+    private int ordineProvvisorio;
 
     public Vignetta() {
     }
@@ -60,12 +61,21 @@ public class Vignetta implements Parcelable{
         this.ordine = ordine;
     }
 
+    public int getOrdineProvvisorio() {
+        return ordineProvvisorio;
+    }
+
+    public void setOrdineProvvisorio(int ordineProvvisorio) {
+        this.ordineProvvisorio = ordineProvvisorio;
+    }
+
     @Override
     public String toString() {
         return "Vignetta{" +
                 "idAlbum=" + idAlbum +
                 ", path='" + path + '\'' +
                 ", ordine=" + ordine +
+                ", ordineProvvisorio=" + ordineProvvisorio +
                 '}';
     }
 

@@ -101,7 +101,7 @@ public class EmotionChoice extends AppCompatActivity {
                         //Yes button clicked
                         Toast.makeText(getApplicationContext(),"Corretto!",Toast.LENGTH_LONG).show();
                         Intent intent=new Intent(getApplicationContext(), EmotionActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                         startActivity(intent);
                         break;
