@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity{
         btnlogin = (Button) findViewById(R.id.btnLogin);
 
         settings = getSharedPreferences(PREFS_NAME, 0);
-
         //progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);

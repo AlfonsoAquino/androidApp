@@ -3,6 +3,7 @@ package com.example.alfonso.storytelling;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -92,40 +93,33 @@ public class SequenceOrder extends AppCompatActivity {
                         x=false;
                     Log.i(TAG,"sdadjsodaisduaosduoaduoaduoiaduoiaudoiaudoaudo.............>"+ordine+","+ordineProv);
                 }
-                if(x){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                    builder.setPositiveButton("Get Pro", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).setNegativeButton("No thanks", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                if(x) {
+                    AlertDialog.Builder alertadd = new AlertDialog.Builder(SequenceOrder.this);
+                    LayoutInflater factory = LayoutInflater.from(SequenceOrder.this);
+                    final View v = factory.inflate(R.layout.success_layout, null);
+                    alertadd.setView(v);
+                    alertadd.setNeutralButton("Here!", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dlg, int sumthin) {
+                            Intent intent=new Intent(getApplicationContext(), SequenceAlbumList.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                            startActivity(intent);
                         }
                     });
-                    final AlertDialog dialog = builder.create();
-                    LayoutInflater inflater = getLayoutInflater();
-                    View dialogLayout = inflater.inflate(R.layout.success_layout, null);
-                    dialog.setView(dialogLayout);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-                    dialog.show();
-
-                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface d) {
-                            ImageView image = (ImageView) dialog.findViewById(R.id.success);
-                            Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                                    R.drawable.emozioni2);
-                            float imageWidthInPX = (float)image.getWidth();
-
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Math.round(imageWidthInPX),
-                                    Math.round(imageWidthInPX * (float)icon.getHeight() / (float)icon.getWidth()));
-                            image.setLayoutParams(layoutParams);
-
+                    alertadd.show();
+                }else{
+                    AlertDialog.Builder alertadd = new AlertDialog.Builder(SequenceOrder.this);
+                    LayoutInflater factory = LayoutInflater.from(SequenceOrder.this);
+                    final View v = factory.inflate(R.layout.failur_layout, null);
+                    alertadd.setView(v);
+                    alertadd.setNeutralButton("Here!", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dlg, int sumthin) {
 
                         }
                     });
+
+                    alertadd.show();
                 }
             }
         });

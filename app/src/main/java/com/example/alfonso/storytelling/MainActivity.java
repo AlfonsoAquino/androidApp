@@ -42,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         //controllo per il primo accesso
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        //se non loggato allora loginActivity
+        String log=settings.getString("idUtente",null);
 
-        if (settings.getBoolean("my_first_time", true)) {
+        if (settings.getBoolean("my_first_time", true) || log.equals(null)) {
             //the app is being launched for first time, do something
             Log.d("Comments", "First time");
              //first time task
