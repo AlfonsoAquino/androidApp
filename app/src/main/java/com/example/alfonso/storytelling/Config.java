@@ -6,8 +6,10 @@ public class Config {
     public static final String DATA_URL = "https://bifurun.000webhostapp.com/login.php";
     public static final String ALBUMS = "https://bifurun.000webhostapp.com/storie.php";
     public static final String VIGNETTE = "https://bifurun.000webhostapp.com/vignette.php";
+    public static final String STATISTICA = "https://bifurun.000webhostapp.com/statistica.php";
     public static final String destAlbumPrev="AlbumPreview";
     public static final String destVignette="Vignette";
+    public static final String PREFS_NAME="MyPrefsFile";
 
     //Tags used in the JSON String
     public static final String TAG_NOME = "nome";

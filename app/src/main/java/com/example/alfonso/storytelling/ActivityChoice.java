@@ -3,6 +3,7 @@ package com.example.alfonso.storytelling;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,11 +24,17 @@ public class ActivityChoice extends AppCompatActivity {
     private ImageView img1;
     private ImageView img2;
     private ArrayList<Vignetta> vignetta;
+    SQLiteHandler db;
+    String idUtente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
+
+        db=new SQLiteHandler(getApplicationContext());
+        SharedPreferences settings = getSharedPreferences(Config.PREFS_NAME, 0);
+        idUtente = settings.getString("idUtente", null);
 
         img1=(ImageView)findViewById(R.id.vignetta1);
         img2=(ImageView)findViewById(R.id.vignetta2);
@@ -152,6 +159,8 @@ public class ActivityChoice extends AppCompatActivity {
 
 
     public void showCorrect() {
+        db.addStatistica(idUtente,String.valueOf(vignetta.get(0).getIdAlbum()),"1","0");
+
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -160,7 +169,7 @@ public class ActivityChoice extends AppCompatActivity {
                         //Yes button clicked
                         Toast.makeText(getApplicationContext(),"Corretto!",Toast.LENGTH_LONG).show();
                         Intent intent=new Intent(getApplicationContext(), ActivityAlbum.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                         startActivity(intent);
                         break;
@@ -179,6 +188,8 @@ public class ActivityChoice extends AppCompatActivity {
 
 
     public void showWrong(){
+        db.addStatistica(idUtente,String.valueOf(vignetta.get(0).getIdAlbum()),"0","1");
+
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

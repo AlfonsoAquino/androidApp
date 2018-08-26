@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -43,14 +44,21 @@ public class SequenceOrder extends AppCompatActivity {
     private ImageView image;
     private NumberPicker picker;
     public Integer[] order;
+    private SQLiteHandler db;
+    private String idUtente;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sequence_order);
 
+        SharedPreferences settings = getSharedPreferences(Config.PREFS_NAME, 0);
+        idUtente=settings.getString("idUtente",null);
+
+        db=new SQLiteHandler(getApplicationContext());
         button=(Button) findViewById(R.id.sendOrder);
         listView = (ListView)findViewById(R.id.listOrder);
 
+        //prendere dalle sharedPreferens per idPaziente
         vignetteAlbum=new ArrayList<>();
         vignetteAlbum=getIntent().getParcelableArrayListExtra("vignetteAlbum");
 
@@ -94,21 +102,29 @@ public class SequenceOrder extends AppCompatActivity {
                     Log.i(TAG,"sdadjsodaisduaosduoaduoaduoiaduoiaudoiaudoaudo.............>"+ordine+","+ordineProv);
                 }
                 if(x) {
+
+                    //aggiunta statistica al db interno
+                    db.addStatistica(idUtente,String.valueOf(vignetteAlbum.get(0).getIdAlbum()),"1","0");
+                    //alert dialog per successo nell'ordinamento
                     AlertDialog.Builder alertadd = new AlertDialog.Builder(SequenceOrder.this);
                     LayoutInflater factory = LayoutInflater.from(SequenceOrder.this);
                     final View v = factory.inflate(R.layout.success_layout, null);
                     alertadd.setView(v);
                     alertadd.setNeutralButton("Here!", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dlg, int sumthin) {
-                            Intent intent=new Intent(getApplicationContext(), SequenceAlbumList.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
+                            Intent intent=new Intent(getApplicationContext(), SequenceActivity.class);
+                            //ripulisco l'intero stack
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                     });
-
                     alertadd.show();
                 }else{
+
+                    //aggiunta statistica al db interno
+                    db.addStatistica(idUtente,String.valueOf(vignetteAlbum.get(0).getIdAlbum()),"0","1");
+                    //alert dialog per insuccesso
                     AlertDialog.Builder alertadd = new AlertDialog.Builder(SequenceOrder.this);
                     LayoutInflater factory = LayoutInflater.from(SequenceOrder.this);
                     final View v = factory.inflate(R.layout.failur_layout, null);

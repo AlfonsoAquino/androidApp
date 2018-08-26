@@ -3,6 +3,7 @@ package com.example.alfonso.storytelling;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +24,16 @@ public class EmotionChoice extends AppCompatActivity {
     private ImageView img1;
     private ImageView img2;
     private ArrayList<Vignetta> vignetta;
-
+    SQLiteHandler db;
+    String idUtente;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emotion_choice);
 
+        db=new SQLiteHandler(getApplicationContext());
+        SharedPreferences settings = getSharedPreferences(Config.PREFS_NAME, 0);
+         idUtente = settings.getString("idUtente", null);
 
         img1=(ImageView)findViewById(R.id.vignettaChoice1);
         img2=(ImageView)findViewById(R.id.vignettaChoice2);
@@ -93,6 +98,7 @@ public class EmotionChoice extends AppCompatActivity {
     }
 
     public void showCorrect() {
+        db.addStatistica(idUtente,String.valueOf(vignetta.get(0).getIdAlbum()),"1","0");
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -120,6 +126,7 @@ public class EmotionChoice extends AppCompatActivity {
 
 
     public void showWrong(){
+        db.addStatistica(idUtente,String.valueOf(vignetta.get(0).getIdAlbum()),"0","1");
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
