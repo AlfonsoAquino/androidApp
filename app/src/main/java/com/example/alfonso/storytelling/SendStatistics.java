@@ -34,7 +34,6 @@ public class SendStatistics extends AsyncTask<String, Integer,Void> {
         idPaziente="0";
         numCorr="0";
         numErr="0";
-        context=null;
     }
 
     @Override

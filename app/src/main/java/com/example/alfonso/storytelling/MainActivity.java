@@ -56,27 +56,27 @@ public class MainActivity extends AppCompatActivity {
         if (!log) {
             //the app is being launched for first time, do something
             Log.d("Comments", "First time");
-             //first time task
+            //first time task
             Intent intent= new Intent(getApplicationContext(),LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             startActivity(intent);
 
-             //record the fact that the app has been started at least once
+            //record the fact that the app has been started at least once
             settings.edit().putBoolean("my_first_time", false).commit();
         }else{
 
-           albums=db.getAlbumDetails();
-           vignette=db.getVignettaDetails();
-           statistiche=db.getStatisticsDetails();
+            albums=db.getAlbumDetails();
+            vignette=db.getVignettaDetails();
+            statistiche=db.getStatisticsDetails();
             Log.i("asdadadadad....","-------------->"+statistiche.size());
-           if(isOnline() && statistiche.size()!=0) {
-               for (Statistica a : statistiche) {
-                   Log.i("asdadadadad....", "-------------->" + a.toString());
-                   new SendStatistics(getApplicationContext()).execute("" + a.getIdPaziente(), "" + a.getIdAlbum(), "" + a.getNumCorrette(), "" + a.getNumSbagliate());
+            if(isOnline() && statistiche.size()!=0) {
+                for (Statistica a : statistiche) {
+                    Log.i("asdadadadad....", "-------------->" + a.toString());
+                    new SendStatistics(getApplicationContext()).execute("" + a.getIdPaziente(), "" + a.getIdAlbum(), "" + a.getNumCorrette(), "" + a.getNumSbagliate());
 
-               }
-           }
+                }
+            }
         }
 //        creare bottone per scaricare nuovamente tutti gli album(quindi collegarsi direttamente alla pagina LoadingActivity)
 
@@ -84,30 +84,42 @@ public class MainActivity extends AppCompatActivity {
         txtAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(getApplicationContext(), ActivityAlbum.class);
-                intent.putParcelableArrayListExtra("albums",albums);
-                intent.putParcelableArrayListExtra("vignette",vignette);
-                startActivity(intent);
+                if(checkAlbum(0)) {
+                    Intent intent = new Intent(getApplicationContext(), ActivityAlbum.class);
+                    intent.putParcelableArrayListExtra("albums", albums);
+                    intent.putParcelableArrayListExtra("vignette", vignette);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"non ci sono album",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         txtEmotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(getApplicationContext(), EmotionActivity.class);
-                intent.putParcelableArrayListExtra("albums",albums);
-                intent.putParcelableArrayListExtra("vignette",vignette);
-                startActivity(intent);
+                if(checkAlbum(1)) {
+                    Intent intent = new Intent(getApplicationContext(), EmotionActivity.class);
+                    intent.putParcelableArrayListExtra("albums", albums);
+                    intent.putParcelableArrayListExtra("vignette", vignette);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"non ci sono album",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         txtSequence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(getApplicationContext(), SequenceActivity.class);
-                intent.putParcelableArrayListExtra("albums",albums);
-                intent.putParcelableArrayListExtra("vignette",vignette);
-                startActivity(intent);
+                if(checkAlbum(2)) {
+                    Intent intent = new Intent(getApplicationContext(), SequenceActivity.class);
+                    intent.putParcelableArrayListExtra("albums", albums);
+                    intent.putParcelableArrayListExtra("vignette", vignette);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"non ci sono album",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -127,5 +139,16 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+    public Boolean checkAlbum(int count){
+        int i=0;
+        for(Album a:albums){
+            if(a.getTipo()==count)
+                i++;
+        }
+        if(i!=0)
+            return true;
+        else
+            return false;
     }
 }
