@@ -79,8 +79,9 @@ public class EmotionActivity extends Activity {
 
 
     public void startAlbum(View v){
-
+        //controllare l'invio delle vignette in specifico l'id con cui le carico (temp) controllare anche in albumActivity
         int idAlbum= albumTipo0.get(temp).getId();
+        Log.i(TAG,"-------------------------------------------____>"+idAlbum);
         vignetteAlbum=new ArrayList<>();
         for (Vignetta b:vignette)
             if (b.getIdAlbum()==idAlbum)

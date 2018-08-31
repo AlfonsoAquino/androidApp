@@ -91,7 +91,7 @@ public class EmotionSlide extends AppCompatActivity {
 
         String fileName = vignetteAlbum.get(temp).getIdAlbum()+""+vignetteAlbum.get(temp).getOrdine()+".jpg";
         String completePath = Environment.getExternalStorageDirectory()+"/"+Config.destVignette+"/"+fileName;
-
+        Log.i("asdasasdd.......>","------------<"+fileName);
         File file = new File(completePath);
         Uri imageUri = Uri.fromFile(file);
 
